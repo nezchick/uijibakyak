@@ -1,15 +1,66 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>의지박약</title>
+    <style>
+        .wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 40vh;
+        }
+        .scheduleBox {
+            display: inline-block;
+            justify-content: center;
+            overflow: auto;
+            text-align: center;
+            width: 200px;
+            height: 150px;
+            background: lightgray;
+            margin: 10px;
+            padding: 10px;
+            border: 2px solid gray;
+            border-radius: 5px;
+        }
+        .scheduleBoxWrapper {
+            padding-bottom: 30px;
+        }
+
+    </style>
 </head>
 <body>
 
-<form method="post" action="/create/schedule">
-    <input type="text" name="schedule" placeholder="일정" required>
+<form method="post" action="/schedule">
+    <div class="wrapper">
+        <h2>한줄계획</h2>
+    <input type="text" name="schedule" size="80%" placeholder="기한 입력 시, 띄어쓰기 3번 후 숫자만 4자 혹은 6자로 입력해주세요. ex) 220915, 0915" required>
     <button type="submit">입력</button>
+    </div>
 </form>
+<div class="scheduleBoxWrapper">
+    <p class="scheduleBox" th:each="list : ${scheduleList}">
+    <span th:text="${list.getSchedule()}">
+    </span><br><br>
+        <span th:text="${list.getInputTime()}">
+    </span><br>
+        <span th:text="${list.getDeadline()}">
+    </span><br><br>
+        <button type="submit">완료</button>
+    </p>
+</div>
+
+<div>
+    <p class="scheduleBox" th:each="list : ${scheduleListNoDate}">
+    <span th:text="${list.getSchedule()}">
+    </span><br><br>
+        <span th:text="${list.getInputTime()}">
+    </span><br>
+        <span th:text="${list.getDeadline()}">
+    </span><br><br>
+        <button type="submit">완료</button>
+    </p>
+</div>
 
 </body>
 </html>
