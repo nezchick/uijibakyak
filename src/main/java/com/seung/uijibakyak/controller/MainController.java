@@ -1,48 +1,34 @@
 package com.seung.uijibakyak.controller;
 
-import com.seung.uijibakyak.dto.ScheduleDto;
-import com.seung.uijibakyak.entity.ScheduleEntity;
-import com.seung.uijibakyak.repository.ScheduleRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-
-import java.time.LocalDate;
 
 @Controller
+@RequiredArgsConstructor
 public class MainController {
 
-    private final ScheduleRepository scheduleRepository;
-
-    public MainController(ScheduleRepository scheduleRepository) {
-        this.scheduleRepository = scheduleRepository;
-    }
+    private final ScheduleController scheduleController;
 
     @GetMapping("/")
-    public String index() {
+    public String index(Model model) {
+
+        scheduleController.loadSchedule(model);
 
         return "index";
     }
 
-    @PostMapping("/create/schedule")
-    public String createSchedule(ScheduleDto scheduleDto) {
+    @GetMapping("/member/register")
+    public String registerPage() {
 
-        ScheduleEntity scheduleEntity =
-                ScheduleEntity.builder()
-                .schedule(scheduleDto.getSchedule())
-                        .userId(scheduleDto.getUserId())
-                        .inputTime(LocalDate.now())
-                        .deadline(scheduleDto.getDeadline())
-                        .build();
-
-        scheduleRepository.save(scheduleEntity);
-
-
-        return "index";
+        return "member/register";
     }
 
+    @GetMapping("/member/login")
+    public String loginPage() {
 
-
-
+        return "member/login";
+    }
 
 }
